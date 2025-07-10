@@ -1,4 +1,4 @@
- pipeline {
+pipeline {
     agent any
 
     environment {
@@ -11,7 +11,7 @@
         stage('获取最新模型') {
             steps {
                 script {
-                    def latestModel = sh(script: "ls -t ${MODEL_DIR}/*.pt | head -n 1", returnStdout: true).trim()
+                    def latestModel = sh(script: "ls -t \"${MODEL_DIR}\"/*.pt | head -n 1", returnStdout: true).trim()
                     if (latestModel == "") {
                         error "❌ 未找到模型文件"
                     }
@@ -23,8 +23,8 @@
 
         stage('上传并触发 OTA') {
             steps {
-                sh "chmod +x ${SCRIPT_PATH}"
-                sh "${SCRIPT_PATH} ${env.LATEST_MODEL}"
+                sh "chmod +x \"${SCRIPT_PATH}\""
+                sh "\"${SCRIPT_PATH}\" \"${env.LATEST_MODEL}\""
             }
         }
     }
@@ -38,4 +38,3 @@
         }
     }
 }
-
